@@ -13,7 +13,7 @@
 
 param (
     [Parameter(Mandatory=$false)]
-    [ValidateSet("developer", "qa", "data", "devops", "pm", "design", "admin", "")]
+    [ValidateSet("developer", "qa", "data", "devops", "pm", "design", "admin", "hr", "talent", "client", "")]
     [string]$Designation = "",
     
     [switch]$Interactive,
@@ -65,6 +65,24 @@ $RoleMapping = [ordered]@{
         Title = "AI Engineering Administrator"
         Repo = "admin-workspace"
         Focus = "Organization governance, repository templates, secret audit, compliance"
+    }
+    "hr" = @{
+        Key = "hr"
+        Title = "AI HR Operations Specialist"
+        Repo = "hr-operations"
+        Focus = "Corporate policies, offer/internship/relieving letters, NDAs, HR automation"
+    }
+    "talent" = @{
+        Key = "talent"
+        Title = "AI Talent & Brand Marketing Specialist"
+        Repo = "talent-brand-media"
+        Focus = "Social campaigns, 1:1 square posts, 9:16 reels, LinkedIn carousels, job ad copy"
+    }
+    "client" = @{
+        Key = "client"
+        Title = "AI Client Commercials Specialist"
+        Repo = "client-operations"
+        Focus = "B2B quotations, GST tax invoices (SAC 998314), SOW agreements, MSAs, NDAs, UAT"
     }
 }
 
