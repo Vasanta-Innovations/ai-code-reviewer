@@ -1,0 +1,54 @@
+[
+  {
+    "pr_id": "pr-101-auth-bypass",
+    "title": "Add admin user lookup endpoint",
+    "approved": false,
+    "diff": "--- a/src/controllers/admin.ts\n+++ b/src/controllers/admin.ts\n@@ -12,4 +12,8 @@\n+export async function getAdminProfile(req: Request, res: Response) {\n+  const { userId } = req.params;\n+  // Missing authentication and authorization middleware check!\n+  const user = await db.query('SELECT * FROM users WHERE id = ' + userId);\n+  return res.json(user);\n+}",
+    "comments": [
+      {
+        "file_path": "src/controllers/admin.ts",
+        "line_number": 15,
+        "severity": "blocking",
+        "issue_type": "security",
+        "comment": "SQL injection vulnerability via unescaped string concatenation and missing authentication check on admin endpoint."
+      }
+    ]
+  },
+  {
+    "pr_id": "pr-102-null-dereference",
+    "title": "Format customer address for shipping label",
+    "approved": false,
+    "diff": "--- a/src/services/shipping.ts\n+++ b/src/services/shipping.ts\n@@ -24,4 +24,7 @@\n+export function formatShippingLabel(order: Order): string {\n+  // order.customer.address can be null or undefined for digital orders\n+  return order.customer.address.street.toUpperCase();\n+}",
+    "comments": [
+      {
+        "file_path": "src/services/shipping.ts",
+        "line_number": 26,
+        "severity": "blocking",
+        "issue_type": "bug",
+        "comment": "Unhandled null/undefined dereference when order.customer.address is null, causing unhandled runtime TypeError crash."
+      }
+    ]
+  },
+  {
+    "pr_id": "pr-103-n-plus-one-query",
+    "title": "Fetch customer order line items",
+    "approved": true,
+    "diff": "--- a/src/services/orders.ts\n+++ b/src/services/orders.ts\n@@ -40,4 +40,9 @@\n+export async function fetchOrderDetails(orders: Order[]) {\n+  const results = [];\n+  for (const order of orders) {\n+    const items = await db.items.find({ orderId: order.id });\n+    results.push({ ...order, items });\n+  }\n+  return results;\n+}",
+    "comments": [
+      {
+        "file_path": "src/services/orders.ts",
+        "line_number": 43,
+        "severity": "important",
+        "issue_type": "perf",
+        "comment": "N+1 query detected: queries database in a loop instead of performing a batch find or join query."
+      }
+    ]
+  },
+  {
+    "pr_id": "pr-104-clean-refactor",
+    "title": "Refactor math utility helpers to pure functions",
+    "approved": true,
+    "diff": "--- a/src/utils/math.ts\n+++ b/src/utils/math.ts\n@@ -5,3 +5,6 @@\n+export function clamp(val: number, min: number, max: number): number {\n+  return Math.min(Math.max(val, min), max);\n+}",
+    "comments": []
+  }
+]

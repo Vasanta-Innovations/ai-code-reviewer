@@ -1,0 +1,40 @@
+name: 'AI Automated Code Reviewer'
+description: 'Automated LLM code review agent with trust boundary, line-level PR commenting, and deterministic verdicts.'
+author: 'Vasanta Innovations'
+
+inputs:
+  github-token:
+    description: 'GitHub token for fetching diff and posting PR review comments'
+    required: true
+    default: ${{ github.token }}
+  gemini-api-key:
+    description: 'Google Gemini API Key for model inference'
+    required: false
+  model:
+    description: 'LLM model to use (e.g. gemini-2.5-flash, gemini-2.0-flash)'
+    required: false
+    default: 'gemini-2.5-flash'
+  approval-preset:
+    description: 'Verdict derivation preset (minor_only | no_blocking | no_comments)'
+    required: false
+    default: 'minor_only'
+  max-findings:
+    description: 'Maximum number of findings to report per review'
+    required: false
+    default: '15'
+
+outputs:
+  verdict:
+    description: 'Derived review verdict (APPROVE, COMMENT, REQUEST_CHANGES)'
+  approved:
+    description: 'Boolean merge approval status'
+  findings-count:
+    description: 'Total number of findings identified'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'check-circle'
+  color: 'blue'

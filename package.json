@@ -1,0 +1,35 @@
+{
+  "name": "@vasantainnovations/ai-code-reviewer",
+  "version": "1.0.0",
+  "description": "Production LLM code review agent with trust boundary, ground-truth evaluation, and automated PR inline commenting",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "lint": "eslint src/ --ext .ts",
+    "test": "jest",
+    "benchmark": "ts-node evaluation/benchmark.ts"
+  },
+  "keywords": [
+    "github-action",
+    "code-review",
+    "llm",
+    "ai-agent",
+    "gemini",
+    "claude"
+  ],
+  "author": "Vasanta Innovations",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@actions/core": "^1.11.1",
+    "@actions/github": "^6.0.0",
+    "@google/genai": "^0.1.2",
+    "dotenv": "^16.4.7",
+    "parse-diff": "^0.11.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/parse-diff": "^0.0.34",
+    "typescript": "^5.7.2"
+  }
+}

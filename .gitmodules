@@ -1,0 +1,3 @@
+[submodule "company-standards"]
+	path = company-standards
+	url = https://github.com/Vasanta-Innovations/company-standards.git
