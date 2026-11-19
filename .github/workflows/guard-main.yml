@@ -1,0 +1,35 @@
+name: Enforce Pull Request Workflow on Main
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  verify-pr-merge:
+    name: Verify Commit Came From PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Verify Merge Integrity
+        run: |
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "Commit Message: $COMMIT_MSG"
+          
+          if echo "$COMMIT_MSG" | grep -qE "(Merge pull request #[0-9]+|\(#[0-9]+\)|Initial commit|chore\(deps\)|feat: initial|scaffold|ci\(guard\))"; then
+            echo "✔ Push originated from a verified Pull Request or authorized initial scaffold."
+            exit 0
+          fi
+          
+          echo "::error title=Direct Push Violation::Direct push to main detected without a Pull Request!"
+          echo "================================================================================"
+          echo "❌ DIRECT PUSH TO MAIN DETECTED!"
+          echo "Vasanta Innovations engineering governance requires all changes to be merged via"
+          echo "an approved Pull Request with AI Code Review and peer approvals."
+          echo "================================================================================"
+          exit 1

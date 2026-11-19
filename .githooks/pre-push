@@ -1,0 +1,33 @@
+#!/bin/sh
+z40="0000000000000000000000000000000000000000"
+
+while read local_ref local_sha remote_ref remote_sha
+do
+    if [ "$remote_ref" = "refs/heads/main" ] || [ "$remote_ref" = "refs/heads/develop" ]; then
+        if [ "$local_sha" = "$z40" ]; then
+            echo "❌ [BLOCKED] Deleting branch '$remote_ref' is strictly forbidden!"
+            exit 1
+        fi
+        if [ "$ALLOW_EMERGENCY_MAIN_PUSH" = "1" ]; then
+            echo "⚠️ [WARNING] Emergency main push permitted via ALLOW_EMERGENCY_MAIN_PUSH=1."
+            exit 0
+        fi
+        echo ""
+        echo "================================================================================"
+        echo " ❌ [BLOCKED] Direct push to '$remote_ref' is forbidden by Vasanta Standards!"
+        echo "================================================================================"
+        echo " All changes must go through a Pull Request for AI inspection & peer review."
+        echo ""
+        echo " 👉 How to contribute your changes:"
+        echo "    1. Create a feature branch:"
+        echo "       git checkout -b feature/US-XXX-my-feature"
+        echo "    2. Push your feature branch:"
+        echo "       git push -u origin feature/US-XXX-my-feature"
+        echo "    3. Open a Pull Request on GitHub for AI & human review:"
+        echo "       https://github.com/Vasanta-Innovations"
+        echo "================================================================================"
+        echo ""
+        exit 1
+    fi
+done
+exit 0
