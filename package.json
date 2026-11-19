@@ -22,14 +22,13 @@
   "dependencies": {
     "@actions/core": "^1.11.1",
     "@actions/github": "^6.0.0",
-    "@google/genai": "^0.1.2",
+    "@google/genai": "^0.2.0",
     "dotenv": "^16.4.7",
     "parse-diff": "^0.11.1",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "@types/parse-diff": "^0.0.34",
     "typescript": "^5.7.2"
   }
 }
