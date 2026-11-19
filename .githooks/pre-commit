@@ -1,17 +1,29 @@
 #!/bin/sh
-# ==============================================================================
-# Vasanta Innovations - Pre-Commit Rule Protection Hook
-# Prevents unauthorized local edits to rules in .cursor/rules/
-# ==============================================================================
 
+# 1. Verify 28-Day Inactivity Security Heartbeat
+if [ -f "scripts/security-heartbeat.ps1" ] && command -v powershell >/dev/null 2>&1; then
+  powershell -ExecutionPolicy Bypass -File "scripts/security-heartbeat.ps1" -Action touch
+  if [ $? -ne 0 ]; then
+    echo "? [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    exit 1
+  fi
+elif [ -f "scripts/security-heartbeat.sh" ]; then
+  bash "scripts/security-heartbeat.sh" touch
+  if [ $? -ne 0 ]; then
+    echo "? [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    exit 1
+  fi
+fi
+
+# 2. Guard Read-Only Rules
 if git diff --cached --name-only | grep -E "^\.cursor/rules/"; then
   if [ "$ALLOW_ADMIN_RULE_UPDATE" = "1" ]; then
-    echo "⚠️ [ADMIN OVERRIDE] Rule modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
+    echo "?? [ADMIN OVERRIDE] Rule modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
     exit 0
   fi
   echo ""
   echo "================================================================================"
-  echo " ❌ [BLOCKED] Rules in '.cursor/rules/' are strictly READ-ONLY!"
+  echo " ? [BLOCKED] Rules in '.cursor/rules/' are strictly READ-ONLY!"
   echo "================================================================================"
   echo " Modifying, tampering with, or loosening engineering rules is strictly prohibited."
   echo " All rules are managed centrally by Tech Leads via 'company-standards'."
@@ -20,5 +32,4 @@ if git diff --cached --name-only | grep -E "^\.cursor/rules/"; then
   echo ""
   exit 1
 fi
-
 exit 0

@@ -1,24 +1,40 @@
 #!/bin/sh
 z40="0000000000000000000000000000000000000000"
 
+# 1. Verify 28-Day Inactivity Security Heartbeat
+if [ -f "scripts/security-heartbeat.ps1" ] && command -v powershell >/dev/null 2>&1; then
+  powershell -ExecutionPolicy Bypass -File "scripts/security-heartbeat.ps1" -Action touch
+  if [ $? -ne 0 ]; then
+    echo "? [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    exit 1
+  fi
+elif [ -f "scripts/security-heartbeat.sh" ]; then
+  bash "scripts/security-heartbeat.sh" touch
+  if [ $? -ne 0 ]; then
+    echo "? [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    exit 1
+  fi
+fi
+
+# 2. Guard Main Branch Protection
 while read local_ref local_sha remote_ref remote_sha
 do
     if [ "$remote_ref" = "refs/heads/main" ] || [ "$remote_ref" = "refs/heads/develop" ]; then
         if [ "$local_sha" = "$z40" ]; then
-            echo "❌ [BLOCKED] Deleting branch '$remote_ref' is strictly forbidden!"
+            echo "? [BLOCKED] Deleting branch '$remote_ref' is strictly forbidden!"
             exit 1
         fi
         if [ "$ALLOW_EMERGENCY_MAIN_PUSH" = "1" ]; then
-            echo "⚠️ [WARNING] Emergency main push permitted via ALLOW_EMERGENCY_MAIN_PUSH=1."
+            echo "?? [WARNING] Emergency main push permitted via ALLOW_EMERGENCY_MAIN_PUSH=1."
             exit 0
         fi
         echo ""
         echo "================================================================================"
-        echo " ❌ [BLOCKED] Direct push to '$remote_ref' is forbidden by Vasanta Standards!"
+        echo " ? [BLOCKED] Direct push to '$remote_ref' is forbidden by Vasanta Standards!"
         echo "================================================================================"
         echo " All changes must go through a Pull Request for AI inspection & peer review."
         echo ""
-        echo " 👉 How to contribute your changes:"
+        echo " ?? How to contribute your changes:"
         echo "    1. Create a feature branch:"
         echo "       git checkout -b feature/US-XXX-my-feature"
         echo "    2. Push your feature branch:"
