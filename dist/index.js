@@ -48345,7 +48345,7 @@ function loadConfig(env = process.env) {
     throw new Error("GITHUB_TOKEN is required to run the AI Code Reviewer");
   }
   const geminiApiKey = env.GEMINI_API_KEY || env.INPUT_GEMINI_API_KEY || env["INPUT_GEMINI-API-KEY"] || core.getInput("gemini-api-key") || "";
-  const model = core.getInput("model") || env.INPUT_MODEL || env.MODEL || "gemini-2.5-flash";
+  const model = core.getInput("model") || env.INPUT_MODEL || env.MODEL || "gemini-2.0-flash";
   const approvalPreset = core.getInput("approval-preset") || env.INPUT_APPROVAL_PRESET || env.APPROVAL_PRESET || "minor_only";
   const maxFindings = parseInt(core.getInput("max-findings") || env.INPUT_MAX_FINDINGS || "15", 10);
   return {
@@ -52644,7 +52644,7 @@ var LLMReviewClient = class {
   client = null;
   model;
   constructor(options) {
-    this.model = options.model || "gemini-2.5-flash";
+    this.model = options.model || "gemini-2.0-flash";
     if (options.apiKey) {
       this.client = new import_genai.GoogleGenAI({ apiKey: options.apiKey });
     }
