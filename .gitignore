@@ -59,3 +59,6 @@ logs/
 *.tmp
 *.temp
 scratch/
+
+# Local Workstation Security Heartbeat
+.security-heartbeat.json
