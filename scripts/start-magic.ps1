@@ -21,7 +21,7 @@ function Show-MagicPopup {
         Add-Type -AssemblyName System.Drawing
 
         $form = New-Object System.Windows.Forms.Form
-        $form.Text = "✨ Vasanta AI Magic Ignition ✨"
+        $form.Text = "* Vasanta AI Magic Ignition *"
         $form.Size = New-Object System.Drawing.Size(620, 480)
         $form.StartPosition = "CenterScreen"
         $form.FormBorderStyle = "FixedDialog"
@@ -33,7 +33,7 @@ function Show-MagicPopup {
         $header = New-Object System.Windows.Forms.Label
         $header.Location = New-Object System.Drawing.Point(25, 20)
         $header.Size = New-Object System.Drawing.Size(560, 35)
-        $header.Text = "✨ Vasanta AI: What would you like to conquer today?"
+        $header.Text = "* Vasanta AI: What would you like to conquer today?"
         $header.Font = New-Object System.Drawing.Font("Segoe UI", 12, [System.Drawing.FontStyle]::Bold)
         $header.ForeColor = [System.Drawing.Color]::FromArgb(13, 110, 253)
         $form.Controls.Add($header)
@@ -59,7 +59,7 @@ function Show-MagicPopup {
         $r1 = New-Object System.Windows.Forms.RadioButton
         $r1.Location = New-Object System.Drawing.Point(20, 28)
         $r1.Size = New-Object System.Drawing.Size(520, 45)
-        $r1.Text = "🚀 1. Start a Brand-New Fresh Project from Scratch`n   Provision on GitHub, inject secrets, attach standards & clone in 5 seconds."
+        $r1.Text = "[Launch] 1. Start a Brand-New Fresh Project from Scratch`n   Provision on GitHub, inject secrets, attach standards & clone in 5 seconds."
         $r1.Font = New-Object System.Drawing.Font("Segoe UI", 9)
         $r1.Checked = $true
         $group.Controls.Add($r1)
@@ -68,7 +68,7 @@ function Show-MagicPopup {
         $r2 = New-Object System.Windows.Forms.RadioButton
         $r2.Location = New-Object System.Drawing.Point(20, 80)
         $r2.Size = New-Object System.Drawing.Size(520, 45)
-        $r2.Text = "🔄 2. Sync & Work on an Existing Project`n   Pull latest main, update company-standards, touch heartbeat & create ticket branch."
+        $r2.Text = "[Sync] 2. Sync & Work on an Existing Project`n   Pull latest main, update company-standards, touch heartbeat & create ticket branch."
         $r2.Font = New-Object System.Drawing.Font("Segoe UI", 9)
         $group.Controls.Add($r2)
 
@@ -76,7 +76,7 @@ function Show-MagicPopup {
         $r3 = New-Object System.Windows.Forms.RadioButton
         $r3.Location = New-Object System.Drawing.Point(20, 132)
         $r3.Size = New-Object System.Drawing.Size(520, 45)
-        $r3.Text = "🛡️ 3. Run Pre-PR Quality Gates & Submit PR`n   Run 10 gates, verify READ-ONLY rules, commit with ticket ID & open PR for AI review."
+        $r3.Text = "[Guard] 3. Run Pre-PR Quality Gates & Submit PR`n   Run 10 gates, verify READ-ONLY rules, commit with ticket ID & open PR for AI review."
         $r3.Font = New-Object System.Drawing.Font("Segoe UI", 9)
         $group.Controls.Add($r3)
 
@@ -84,7 +84,7 @@ function Show-MagicPopup {
         $r4 = New-Object System.Windows.Forms.RadioButton
         $r4.Location = New-Object System.Drawing.Point(20, 184)
         $r4.Size = New-Object System.Drawing.Size(520, 45)
-        $r4.Text = "⚡ 4. Workstation Onboarding / Re-configuration`n   Open the AI Designation selector popup to configure your local environment."
+        $r4.Text = "[Fast] 4. Workstation Onboarding / Re-configuration`n   Open the AI Designation selector popup to configure your local environment."
         $r4.Font = New-Object System.Drawing.Font("Segoe UI", 9)
         $group.Controls.Add($r4)
 
@@ -100,7 +100,7 @@ function Show-MagicPopup {
         $okBtn = New-Object System.Windows.Forms.Button
         $okBtn.Location = New-Object System.Drawing.Point(300, 390)
         $okBtn.Size = New-Object System.Drawing.Size(160, 42)
-        $okBtn.Text = "Ignite Magic ✨"
+        $okBtn.Text = "Ignite Magic *"
         $okBtn.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
         $okBtn.BackColor = [System.Drawing.Color]::FromArgb(13, 110, 253)
         $okBtn.ForeColor = [System.Drawing.Color]::White
@@ -140,12 +140,12 @@ function Show-MagicPopup {
 function Show-MagicCliMenu {
     Write-Host ""
     Write-Host "================================================================================" -ForegroundColor Cyan
-    Write-Host " ✨ Vasanta AI Magic Ignition - Suggestions Menu" -ForegroundColor Yellow
+    Write-Host " * Vasanta AI Magic Ignition - Suggestions Menu" -ForegroundColor Yellow
     Write-Host "================================================================================" -ForegroundColor Cyan
-    Write-Host "  [1] 🚀 Start a Brand-New Fresh Project from Scratch (< 10s)" -ForegroundColor White
-    Write-Host "  [2] 🔄 Sync & Work on an Existing Project (< 3s)" -ForegroundColor White
-    Write-Host "  [3] 🛡️ Run 10 Pre-PR Quality Gates & Submit PR" -ForegroundColor White
-    Write-Host "  [4] ⚡ Workstation Onboarding / Re-configuration" -ForegroundColor White
+    Write-Host "  [1] [Launch] Start a Brand-New Fresh Project from Scratch (< 10s)" -ForegroundColor White
+    Write-Host "  [2] [Sync] Sync & Work on an Existing Project (< 3s)" -ForegroundColor White
+    Write-Host "  [3] [Guard] Run 10 Pre-PR Quality Gates & Submit PR" -ForegroundColor White
+    Write-Host "  [4] [Fast] Workstation Onboarding / Re-configuration" -ForegroundColor White
     Write-Host "  [5] 📚 Explore Company Standards & Architecture" -ForegroundColor White
     Write-Host "================================================================================" -ForegroundColor Cyan
     $choice = Read-Host "Select an action (1-5) [Default: 2]"
@@ -168,7 +168,7 @@ if ($Cli -or -not [Environment]::UserInteractive -or [Console]::IsInputRedirecte
 }
 
 if (-not $action) {
-    Write-Host "✨ Magic paused. Let me know whenever you're ready!" -ForegroundColor Yellow
+    Write-Host "* Magic paused. Let me know whenever you're ready!" -ForegroundColor Yellow
     exit 0
 }
 
@@ -177,7 +177,7 @@ Write-Host "====================================================================
 
 switch ($action) {
     "new_project" {
-        Write-Host "🚀 [ACTION] Initiating Brand-New Project Provisioner..." -ForegroundColor Green
+        Write-Host "[Launch] [ACTION] Initiating Brand-New Project Provisioner..." -ForegroundColor Green
         $repoName = Read-Host "Enter Repository Name (e.g. payment-service)"
         if (-not $repoName) { $repoName = "demo-new-service" }
         $desc = Read-Host "Enter Repository Description"
@@ -190,7 +190,7 @@ switch ($action) {
     }
 
     "sync_project" {
-        Write-Host "🔄 [ACTION] Synchronizing Project & Preparing Branch..." -ForegroundColor Green
+        Write-Host "[Sync] [ACTION] Synchronizing Project & Preparing Branch..." -ForegroundColor Green
         $ticket = Read-Host "Enter Ticket ID or Branch Name (e.g. US-101-auth) [Default: main]"
         $branch = if ($ticket) { "feature/$ticket" } else { "main" }
         
@@ -201,14 +201,14 @@ switch ($action) {
     }
 
     "submit_pr" {
-        Write-Host "🛡️ [ACTION] Running Pre-PR Quality Review & Gate Checks..." -ForegroundColor Green
-        Write-Host "  ✔ Checking read-only rule integrity..." -ForegroundColor Cyan
-        Write-Host "  ✔ Validating lint, unit tests, and build..." -ForegroundColor Cyan
+        Write-Host "[Guard] [ACTION] Running Pre-PR Quality Review & Gate Checks..." -ForegroundColor Green
+        Write-Host "  [OK] Checking read-only rule integrity..." -ForegroundColor Cyan
+        Write-Host "  [OK] Validating lint, unit tests, and build..." -ForegroundColor Cyan
         Write-Host "  👉 Your AI Agent is ready to commit and open your PR for automated review." -ForegroundColor Yellow
     }
 
     "onboard" {
-        Write-Host "⚡ [ACTION] Launching Universal AI Workstation Onboarding..." -ForegroundColor Green
+        Write-Host "[Fast] [ACTION] Launching Universal AI Workstation Onboarding..." -ForegroundColor Green
         $onboardScript = Join-Path $PSScriptRoot "onboard-workstation.ps1"
         if (Test-Path $onboardScript) {
             powershell -ExecutionPolicy Bypass -File $onboardScript -Interactive

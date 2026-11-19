@@ -218,7 +218,7 @@ if ($Interactive -or [string]::IsNullOrWhiteSpace($Designation)) {
     if ([Environment]::UserInteractive -and -not [Console]::IsInputRedirected) {
         $selected = Show-DesignationPopup
         if (-not $selected) {
-            Write-Host "❌ Onboarding cancelled by user." -ForegroundColor Red
+            Write-Host "[FAIL] Onboarding cancelled by user." -ForegroundColor Red
             exit 0
         }
         $Designation = $selected
@@ -233,7 +233,7 @@ $roleTitle = $roleInfo.Title
 
 Write-Host ""
 Write-Host "================================================================================" -ForegroundColor Cyan
-Write-Host " 🚀 Vasanta Innovations - 1-Click AI Workstation Onboarding Engine" -ForegroundColor Cyan
+Write-Host " [Launch] Vasanta Innovations - 1-Click AI Workstation Onboarding Engine" -ForegroundColor Cyan
 Write-Host " Selected AI Designation: $roleTitle" -ForegroundColor Yellow
 Write-Host " Target Repository:      $OrgName/$repoName" -ForegroundColor Yellow
 Write-Host "================================================================================" -ForegroundColor Cyan
@@ -269,9 +269,9 @@ try {
     Write-Host "[2/5] Initializing company-standards submodule..." -ForegroundColor Yellow
     git submodule update --init --recursive 2>$null
     if ($LASTEXITCODE -eq 0) {
-        Write-Host "✔ Submodule 'company-standards' attached and up-to-date." -ForegroundColor Green
+        Write-Host "[OK] Submodule 'company-standards' attached and up-to-date." -ForegroundColor Green
     } else {
-        Write-Host "⚠️ Notice: Submodule update skipped or standards already populated." -ForegroundColor Yellow
+        Write-Host "[WARN] Notice: Submodule update skipped or standards already populated." -ForegroundColor Yellow
     }
 
     # 3. Configure Git Guard Hooks
@@ -283,7 +283,7 @@ try {
 
     if (Test-Path $setupHooksScript) {
         powershell -ExecutionPolicy Bypass -File $setupHooksScript | Out-Null
-        Write-Host "✔ Pre-push (main protection) and pre-commit (rule locking) hooks installed." -ForegroundColor Green
+        Write-Host "[OK] Pre-push (main protection) and pre-commit (rule locking) hooks installed." -ForegroundColor Green
     } else {
         git config core.hooksPath .githooks
     }
@@ -293,7 +293,7 @@ try {
     $heartbeatScript = Join-Path $TargetDir "scripts\security-heartbeat.ps1"
     if (Test-Path $heartbeatScript) {
         powershell -ExecutionPolicy Bypass -File $heartbeatScript -Action touch -WorkspaceRoot $TargetDir | Out-Null
-        Write-Host "✔ Security heartbeat initialized. Workspace active for next 28 days." -ForegroundColor Green
+        Write-Host "[OK] Security heartbeat initialized. Workspace active for next 28 days." -ForegroundColor Green
     }
 
     # 5. Lock .cursor/rules and ONBOARDING_PROMPT.md as READ-ONLY
@@ -306,7 +306,7 @@ try {
     if (Test-Path $promptFile) {
         attrib +R $promptFile 2>$null
     }
-    Write-Host "✔ Rules in '.cursor/rules/' and 'ONBOARDING_PROMPT.md' locked as READ-ONLY." -ForegroundColor Green
+    Write-Host "[OK] Rules in '.cursor/rules/' and 'ONBOARDING_PROMPT.md' locked as READ-ONLY." -ForegroundColor Green
 
     Write-Host ""
     Write-Host "================================================================================" -ForegroundColor Green
@@ -316,7 +316,7 @@ try {
     Write-Host " Core Focus:  $($roleInfo.Focus)" -ForegroundColor Cyan
     Write-Host "================================================================================" -ForegroundColor Green
     Write-Host ""
-    Write-Host "📋 YOUR DAY-1 ORIENTATION CHECKLIST:" -ForegroundColor Yellow
+    Write-Host "[Plan] YOUR DAY-1 ORIENTATION CHECKLIST:" -ForegroundColor Yellow
     Write-Host "  1. Remember: This workspace is your READ-ONLY starter hub & template." -ForegroundColor White
     Write-Host "  2. For client/business features: Clone or create the active project repository." -ForegroundColor White
     Write-Host "  3. Always branch off 'main': git checkout -b feature/US-XXX-my-task" -ForegroundColor White

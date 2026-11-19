@@ -65,7 +65,7 @@ if (-not $data) {
         policy = "28-Day Dormancy Expiration - Automatic Company Data Scrub"
     }
     Save-HeartbeatData $data
-    Write-Host "🛡️ [HEARTBEAT] Security heartbeat initialized for '$repoName' ($currentUtcIso)." -ForegroundColor Cyan
+    Write-Host "[Guard] [HEARTBEAT] Security heartbeat initialized for '$repoName' ($currentUtcIso)." -ForegroundColor Cyan
     exit 0
 }
 
@@ -76,7 +76,7 @@ $daysInactive = [math]::Round($inactiveSpan.TotalDays, 1)
 
 switch ($Action) {
     "status" {
-        Write-Host "🛡️ [HEARTBEAT STATUS] Repository: $($data.repo) | Inactive for: $daysInactive days (Policy limit: $MaxDays days)." -ForegroundColor Cyan
+        Write-Host "[Guard] [HEARTBEAT STATUS] Repository: $($data.repo) | Inactive for: $daysInactive days (Policy limit: $MaxDays days)." -ForegroundColor Cyan
         exit 0
     }
 
@@ -101,7 +101,7 @@ switch ($Action) {
             if (Test-Path $offboardScript) {
                 & $offboardScript -WorkspacePath $WorkspaceRoot -Force -Reason "28-Day Inactivity Expiration"
             } else {
-                Write-Host "⚠️ Offboarding script not found locally. Removing rules and locking workspace..." -ForegroundColor Yellow
+                Write-Host "[WARN] Offboarding script not found locally. Removing rules and locking workspace..." -ForegroundColor Yellow
                 $rulesPath = Join-Path $WorkspaceRoot ".cursor\rules"
                 if (Test-Path $rulesPath) {
                     Remove-Item -Path $rulesPath -Recurse -Force

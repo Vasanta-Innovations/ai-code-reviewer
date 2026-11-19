@@ -19,7 +19,7 @@ $ErrorActionPreference = "Stop"
 
 Write-Host ""
 Write-Host "================================================================================" -ForegroundColor Cyan
-Write-Host " 🛡️ Vasanta Innovations - Workstation Offboarding & Asset Scrubber" -ForegroundColor Cyan
+Write-Host " [Guard] Vasanta Innovations - Workstation Offboarding & Asset Scrubber" -ForegroundColor Cyan
 Write-Host " Reason: $Reason" -ForegroundColor Yellow
 Write-Host "================================================================================" -ForegroundColor Cyan
 Write-Host ""
@@ -51,7 +51,7 @@ $forbiddenRoots = @($systemDrive, $userProfile, $desktop, $documents, $downloads
 
 foreach ($forbidden in $forbiddenRoots) {
     if ($WorkspacePath.TrimEnd("\") -eq $forbidden.TrimEnd("\")) {
-        Write-Host "❌ [FATAL SAFETY BLOCK] Refusing to offboard protected system/personal folder: '$WorkspacePath'" -ForegroundColor Red
+        Write-Host "[FAIL] [FATAL SAFETY BLOCK] Refusing to offboard protected system/personal folder: '$WorkspacePath'" -ForegroundColor Red
         exit 1
     }
 }
@@ -59,7 +59,7 @@ foreach ($forbidden in $forbiddenRoots) {
 # 3. Verify Repository Ownership (Must be Vasanta-Innovations)
 $gitDir = Join-Path $WorkspacePath ".git"
 if (-not (Test-Path $gitDir)) {
-    Write-Host "❌ [FATAL SAFETY BLOCK] Target directory is not a Git repository: '$WorkspacePath'" -ForegroundColor Red
+    Write-Host "[FAIL] [FATAL SAFETY BLOCK] Target directory is not a Git repository: '$WorkspacePath'" -ForegroundColor Red
     exit 1
 }
 
@@ -69,7 +69,7 @@ try {
 } catch {}
 
 if ($remoteUrl -notmatch "Vasanta-Innovations") {
-    Write-Host "❌ [FATAL SAFETY BLOCK] Target repository does not belong to 'Vasanta-Innovations'!" -ForegroundColor Red
+    Write-Host "[FAIL] [FATAL SAFETY BLOCK] Target repository does not belong to 'Vasanta-Innovations'!" -ForegroundColor Red
     Write-Host "   Detected Remote: '$remoteUrl'" -ForegroundColor Yellow
     Write-Host "   Aborting immediately to protect personal projects." -ForegroundColor Red
     exit 1
@@ -79,11 +79,11 @@ Write-Host "✅ [VERIFIED] Valid Vasanta-Innovations workspace confirmed: '$Work
 
 # 4. Confirmation Prompt (if not -Force)
 if (-not $Force) {
-    Write-Host "⚠️ WARNING: This will permanently remove all company rules, submodules, and repository files." -ForegroundColor Yellow
+    Write-Host "[WARN] WARNING: This will permanently remove all company rules, submodules, and repository files." -ForegroundColor Yellow
     Write-Host "   Target: $WorkspacePath" -ForegroundColor Yellow
     $confirm = Read-Host "Type 'CONFIRM' to proceed with offboarding wipe"
     if ($confirm -ne "CONFIRM") {
-        Write-Host "❌ Offboarding aborted by user." -ForegroundColor Red
+        Write-Host "[FAIL] Offboarding aborted by user." -ForegroundColor Red
         exit 0
     }
 }
@@ -102,7 +102,7 @@ try {
         Write-Host "✅ Preserved uncommitted changes to remote branch: '$backupBranch'" -ForegroundColor Green
     }
 } catch {
-    Write-Host "⚠️ Notice: Remote backup skipped or already clean." -ForegroundColor Yellow
+    Write-Host "[WARN] Notice: Remote backup skipped or already clean." -ForegroundColor Yellow
 }
 
 # 6. Revoke Local Git Credentials for Vasanta-Innovations

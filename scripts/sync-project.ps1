@@ -29,7 +29,7 @@ try {
     $repoName = Split-Path $WorkspaceRoot -Leaf
     Write-Host ""
     Write-Host "================================================================================" -ForegroundColor Cyan
-    Write-Host " 🔄 Vasanta Innovations - 1-Click Fast Project Sync" -ForegroundColor Cyan
+    Write-Host " [Sync] Vasanta Innovations - 1-Click Fast Project Sync" -ForegroundColor Cyan
     Write-Host " Repository: $repoName" -ForegroundColor Yellow
     Write-Host " Target Branch: $(if ($Branch) { $Branch } else { 'main' })" -ForegroundColor Yellow
     Write-Host "================================================================================" -ForegroundColor Cyan
@@ -51,19 +51,19 @@ try {
         git checkout main 2>&1 | Out-Null
     }
     git pull --rebase origin main 2>&1 | Out-Null
-    Write-Host "✔ Synced with latest remote origin/main." -ForegroundColor Green
+    Write-Host "[OK] Synced with latest remote origin/main." -ForegroundColor Green
 
     # 3. Update company-standards submodule
     Write-Host "[2/5] Updating company-standards submodule..." -ForegroundColor Yellow
     git submodule update --init --recursive 2>&1 | Out-Null
-    Write-Host "✔ Submodule 'company-standards' updated." -ForegroundColor Green
+    Write-Host "[OK] Submodule 'company-standards' updated." -ForegroundColor Green
 
     # 4. Touch security heartbeat (28-day timer)
     Write-Host "[3/5] Refreshing 28-day security heartbeat timer..." -ForegroundColor Yellow
     $heartbeatScript = Join-Path $WorkspaceRoot "scripts\security-heartbeat.ps1"
     if (Test-Path $heartbeatScript) {
         powershell -ExecutionPolicy Bypass -File $heartbeatScript -Action touch -WorkspaceRoot $WorkspaceRoot 2>&1 | Out-Null
-        Write-Host "✔ Security heartbeat refreshed. Active for 28 days." -ForegroundColor Green
+        Write-Host "[OK] Security heartbeat refreshed. Active for 28 days." -ForegroundColor Green
     }
 
     # 5. Lock rules and onboarding prompt as READ-ONLY
@@ -76,7 +76,7 @@ try {
     if (Test-Path $promptFile) {
         attrib +R $promptFile 2>$null
     }
-    Write-Host "✔ Engineering rules and onboarding prompt locked as READ-ONLY." -ForegroundColor Green
+    Write-Host "[OK] Engineering rules and onboarding prompt locked as READ-ONLY." -ForegroundColor Green
 
     # 6. Checkout or create feature branch
     if ($Branch -and $Branch -ne "main") {
@@ -88,7 +88,7 @@ try {
         } else {
             git checkout -b $Branch 2>&1 | Out-Null
         }
-        Write-Host "✔ Active on branch '$Branch' (rebased on fresh main)." -ForegroundColor Green
+        Write-Host "[OK] Active on branch '$Branch' (rebased on fresh main)." -ForegroundColor Green
     } else {
         Write-Host "[5/5] Ready on branch 'main'." -ForegroundColor Green
     }
@@ -101,7 +101,7 @@ try {
 
     Write-Host ""
     Write-Host "================================================================================" -ForegroundColor Green
-    Write-Host " ✨ [PROJECT SYNC COMPLETE] Ready to build without manual commands!" -ForegroundColor Green
+    Write-Host " * [PROJECT SYNC COMPLETE] Ready to build without manual commands!" -ForegroundColor Green
     Write-Host "================================================================================" -ForegroundColor Green
     Write-Host ""
 } finally {

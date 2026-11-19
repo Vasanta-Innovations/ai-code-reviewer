@@ -28,13 +28,13 @@ z40="0000000000000000000000000000000000000000"
 if [ -f "scripts/security-heartbeat.ps1" ] && command -v powershell >/dev/null 2>&1; then
   powershell -ExecutionPolicy Bypass -File "scripts/security-heartbeat.ps1" -Action touch
   if [ $? -ne 0 ]; then
-    echo "❌ [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    echo "[FAIL] [SECURITY BLOCKED] 28-Day inactivity policy triggered."
     exit 1
   fi
 elif [ -f "scripts/security-heartbeat.sh" ]; then
   bash "scripts/security-heartbeat.sh" touch
   if [ $? -ne 0 ]; then
-    echo "❌ [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    echo "[FAIL] [SECURITY BLOCKED] 28-Day inactivity policy triggered."
     exit 1
   fi
 fi
@@ -44,16 +44,16 @@ while read local_ref local_sha remote_ref remote_sha
 do
     if [ "$remote_ref" = "refs/heads/main" ] || [ "$remote_ref" = "refs/heads/develop" ]; then
         if [ "$local_sha" = "$z40" ]; then
-            echo "❌ [BLOCKED] Deleting branch '$remote_ref' is strictly forbidden!"
+            echo "[FAIL] [BLOCKED] Deleting branch '$remote_ref' is strictly forbidden!"
             exit 1
         fi
         if [ "$ALLOW_EMERGENCY_MAIN_PUSH" = "1" ]; then
-            echo "⚠️ [WARNING] Emergency main push permitted via ALLOW_EMERGENCY_MAIN_PUSH=1."
+            echo "[WARN] [WARNING] Emergency main push permitted via ALLOW_EMERGENCY_MAIN_PUSH=1."
             exit 0
         fi
         echo ""
         echo "================================================================================"
-        echo " ❌ [BLOCKED] Direct push to '$remote_ref' is forbidden by Vasanta Standards!"
+        echo " [FAIL] [BLOCKED] Direct push to '$remote_ref' is forbidden by Vasanta Standards!"
         echo "================================================================================"
         echo " All changes must go through a Pull Request for AI inspection & peer review."
         echo ""
@@ -82,13 +82,13 @@ $preCommitContent = @'
 if [ -f "scripts/security-heartbeat.ps1" ] && command -v powershell >/dev/null 2>&1; then
   powershell -ExecutionPolicy Bypass -File "scripts/security-heartbeat.ps1" -Action touch
   if [ $? -ne 0 ]; then
-    echo "❌ [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    echo "[FAIL] [SECURITY BLOCKED] 28-Day inactivity policy triggered."
     exit 1
   fi
 elif [ -f "scripts/security-heartbeat.sh" ]; then
   bash "scripts/security-heartbeat.sh" touch
   if [ $? -ne 0 ]; then
-    echo "❌ [SECURITY BLOCKED] 28-Day inactivity policy triggered."
+    echo "[FAIL] [SECURITY BLOCKED] 28-Day inactivity policy triggered."
     exit 1
   fi
 fi
@@ -96,12 +96,12 @@ fi
 # 2. Guard Read-Only Rules & Onboarding Prompt
 if git diff --cached --name-only | grep -E "^(\.cursor/rules/|ONBOARDING_PROMPT\.md)"; then
   if [ "$ALLOW_ADMIN_RULE_UPDATE" = "1" ]; then
-    echo "⚠️ [ADMIN OVERRIDE] Rule/Prompt modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
+    echo "[WARN] [ADMIN OVERRIDE] Rule/Prompt modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
     exit 0
   fi
   echo ""
   echo "================================================================================"
-  echo " ❌ [BLOCKED] Rules in '.cursor/rules/' and 'ONBOARDING_PROMPT.md' are strictly READ-ONLY!"
+  echo " [FAIL] [BLOCKED] Rules in '.cursor/rules/' and 'ONBOARDING_PROMPT.md' are strictly READ-ONLY!"
   echo "================================================================================"
   echo " Modifying, tampering with, or loosening engineering rules or prompts is prohibited."
   echo " All standards are managed centrally by Tech Leads via 'company-standards'."
@@ -125,5 +125,5 @@ if (Test-Path $promptFile) {
     attrib +R $promptFile 2>$null
 }
 
-Write-Host "✔ Git hooks (.githooks/pre-push & pre-commit) successfully configured!" -ForegroundColor Green
-Write-Host "✔ Direct pushes to 'main', rule/prompt tampering, and 28-day dormancy are guarded." -ForegroundColor Green
+Write-Host "[OK] Git hooks (.githooks/pre-push & pre-commit) successfully configured!" -ForegroundColor Green
+Write-Host "[OK] Direct pushes to 'main', rule/prompt tampering, and 28-day dormancy are guarded." -ForegroundColor Green
