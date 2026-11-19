@@ -1,0 +1,24 @@
+#!/bin/sh
+# ==============================================================================
+# Vasanta Innovations - Pre-Commit Rule Protection Hook
+# Prevents unauthorized local edits to rules in .cursor/rules/
+# ==============================================================================
+
+if git diff --cached --name-only | grep -E "^\.cursor/rules/"; then
+  if [ "$ALLOW_ADMIN_RULE_UPDATE" = "1" ]; then
+    echo "⚠️ [ADMIN OVERRIDE] Rule modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
+    exit 0
+  fi
+  echo ""
+  echo "================================================================================"
+  echo " ❌ [BLOCKED] Rules in '.cursor/rules/' are strictly READ-ONLY!"
+  echo "================================================================================"
+  echo " Modifying, tampering with, or loosening engineering rules is strictly prohibited."
+  echo " All rules are managed centrally by Tech Leads via 'company-standards'."
+  echo " To contribute a rule update, propose it via an approved company-standards RFC."
+  echo "================================================================================"
+  echo ""
+  exit 1
+fi
+
+exit 0
