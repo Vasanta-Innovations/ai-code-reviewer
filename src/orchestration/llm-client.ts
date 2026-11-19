@@ -13,7 +13,7 @@ export class LLMReviewClient {
   private model: string;
 
   constructor(options: LLMReviewerOptions) {
-    this.model = options.model || 'gemini-2.0-flash';
+    this.model = options.model || 'gemini-1.5-flash';
     if (options.apiKey) {
       this.client = new GoogleGenAI({ apiKey: options.apiKey });
     }
