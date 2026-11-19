@@ -1,0 +1,54 @@
+---
+description: Universal energetic AI ignition protocol for Antigravity, Claude, and Cursor agents. Triggers on phrases like "start the magic", "start the work", "let's build".
+globs: ["*"]
+alwaysApply: true
+---
+
+# Universal AI Magic Ignition Protocol
+**Vasanta Innovations** · Antigravity, Claude & Cursor AI Operating System
+
+## 1. Trigger Conditions
+This protocol is activated whenever an engineer prompts with energetic ignition phrases:
+- `"Start the magic!"` / `"Vasanta, start the magic!"`
+- `"Start the work!"` / `"Let's build!"` / `"Ignite the engine!"`
+- Direct commands: `"Start the magic on project <X> for ticket <Y>"`, `"Start the magic: create new project <X>"`
+
+---
+
+## 2. Core Operational Philosophy: Zero Manual Terminal Commands
+
+Engineers at Vasanta Innovations do **not** run manual terminal commands (`git clone`, `git checkout`, `cd ...`, `powershell .\...`).
+The AI assistant runs all background tasks autonomously:
+
+1. **When User Says "Start the magic!" (General Ignition)**:
+   - Greet with high energy:
+     > ✨ **Vasanta AI Magic Ignition Activated! Let's build something extraordinary.**
+   - Run `powershell -ExecutionPolicy Bypass -File scripts/start-magic.ps1` in the background to open the **Interactive Suggestions Popup Dialog**.
+   - If in a non-GUI or headless environment, present the 5 action suggestions:
+     - `[1] 🚀 Start a Brand-New Project from Scratch (< 10s)`
+     - `[2] 🔄 Sync & Work on an Existing Project (< 3s)`
+     - `[3] 🛡️ Run 10 Pre-PR Quality Gates & Submit PR`
+     - `[4] ⚡ Workstation Onboarding / Re-configuration`
+     - `[5] 📚 Explore Company Standards & Architecture`
+
+2. **When User Asks to Create a Fresh Project**:
+   - Prompt: `"Start the magic: create new project <repo-name> with description <desc>"`
+   - Action: Execute `scripts/provision-new-repo.ps1 -RepoName "<repo-name>" -Description "<desc>"` in the background.
+   - Result: Repository created on GitHub, secrets injected, standards attached, guard hooks active, cloned locally.
+
+3. **When User Asks to Work on an Existing Project**:
+   - Prompt: `"Start the magic on project <repo-name> for ticket <US-XXX>"`
+   - Action: Execute `scripts/sync-project.ps1 -Branch "feature/<US-XXX>-task"` in the background.
+   - Result: Latest `main` pulled, `company-standards` submodule updated, 28-day security heartbeat refreshed, feature branch checked out.
+
+4. **When User Asks to Review & Submit PR**:
+   - Prompt: `"Start the magic: review and submit PR for ticket <US-XXX>"`
+   - Action: Run the 10 Pre-PR Quality Gates (`review-pre-pr-self-review.mdc`), commit with conventional format `[<US-XXX>] feat(...)`, push branch to GitHub, and open Pull Request for automated review by `ai-code-reviewer`.
+
+---
+
+## 3. Strict READ-ONLY Rule Invariant
+
+- The AI assistant is strictly forbidden from modifying or removing rules in `.cursor/rules/`, submodules in `company-standards/`, or `ONBOARDING_PROMPT.md`.
+- All engineering governance assets are protected by OS-level `attrib +R` and Git `pre-commit` hooks.
+- AI creativity and code editing are strictly confined to application business code (`src/`, `components/`, `api/`, `tests/`).
