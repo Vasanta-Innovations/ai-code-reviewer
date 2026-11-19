@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "branch": "{{BRANCH_NAME}}",
+  "baseBranch": "main",
+  "initializedAt": "{{TIMESTAMP}}",
+  "lastUpdated": "{{TIMESTAMP}}",
+  "status": "PENDING",
+  "currentStage": 0,
+  "metrics": {
+    "specsTotal": 0,
+    "specsPassed": 0,
+    "specsFailed": 0,
+    "specsSkipped": 0,
+    "diffLinesAdded": 0,
+    "diffLinesDeleted": 0,
+    "diffFilesChanged": 0
+  },
+  "commits": {
+    "firstPushSha": null,
+    "latestSha": null
+  },
+  "pr": {
+    "number": null,
+    "url": null,
+    "title": null,
+    "isDraft": true
+  },
+  "ci": {
+    "pipelineId": null,
+    "status": null,
+    "runUrl": null
+  }
+}

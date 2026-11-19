@@ -1,0 +1,98 @@
+---
+description: Universal self-improving learning engine — transforms review comments, user corrections, and incident post-mortems into automated detection rules to permanently prevent recurring mistakes.
+globs: "**/*"
+alwaysApply: true
+---
+
+# Scenario E: The Continuous Self-Learning Engine
+
+> **Operational Invariant**: The team and AI agents must NEVER make the same mistake twice.
+> Whenever a human reviewer flags an issue, a developer gives a correction in chat, or an unhandled edge case is uncovered, that lesson is immediately transformed into a permanent automated detection rule.
+
+---
+
+## 1. When is Scenario E Triggered?
+
+Scenario E is activated immediately upon any of the following triggers:
+1. **User Chat Correction**: The developer instructs the agent: *"Don't do X, always do Y"*, *"We use Zod here, not Joi"*, *"Never hardcode URLs"*, or triggers `/learn`.
+2. **Pull Request Review Feedback**: A human reviewer or Tech Lead leaves a comment highlighting an anti-pattern, architectural concern, or style violation.
+3. **Bug Regression or CI Failure**: An automated test or build catches an error that escaped previous gates.
+
+---
+
+## 2. The 5-Step Learning Loop Protocol
+
+When a lesson is received, execute this 5-step loop sequentially:
+
+```mermaid
+flowchart TD
+    T["1. Learning Trigger (Chat correction or PR comment)"] --> S1["Step 1: Identify Pattern"]
+    S1 --> S2["Step 2: Abstract Rule & Invariant"]
+    S2 --> S3["Step 3: Construct Shell/AST Detection Hint"]
+    S4["Step 4: Append to Learned Checklist (C<n>)"]
+    S3 --> S4
+    S4 --> S5["Step 5: Immediate Branch Sweep"]
+    S5 --> V["✔ Clean Codebase & Permanent Immunity"]
+```
+
+### Step 1: Identify the Pattern
+- Distinguish between a localized typo (one-off) vs a recurring architectural/engineering principle.
+- If it is a recurring principle, classify it into a category:
+  - **Category A**: Test Scope, Boundaries & Assertions
+  - **Category B**: Code Placement & Structural Hygiene
+  - **Category C**: Environment Portability & Configuration
+  - **Category D**: Security, Data Privacy & Secrets
+  - **Category E**: Concurrency, Performance & Resource Cleanup
+
+### Step 2: Abstract the Invariant
+Formulate a three-part definition:
+- **Rule**: Universal statement of what is required or forbidden.
+- **Reviewer Context**: Real quote or rationale explaining *why* it matters.
+- **Fix**: Concrete code pattern or guidance to remediate violations.
+
+### Step 3: Construct an Automated Detection Hint
+Every rule **MUST** include an automated detection shell command using `ripgrep` (`rg`), `grep`, or `ast-grep` that can search the codebase or PR diffs:
+```bash
+# Example detection hint for raw element locators in spec files
+rg -n "\bpage\.(locator|\$|getByRole|getByText)\b" e2e/
+```
+
+### Step 4: Codify into the Active Learned Checklist
+Determine scope:
+- **Repository-Specific Lesson**: Append to `.cursor/rules/learned-lessons.mdc` in the active repository.
+- **Organization-Wide Lesson**: If the principle applies to all projects (e.g. secret leakage, PR sizing, worktree hygiene), promote it to `company-standards/standards/learned-engineering-rules.md`.
+
+Format:
+```markdown
+#### C<N>. <Descriptive Rule Title>
+- **Rule**: <Statement of constraint>
+- **Reviewer Context**: <Rationale or quote>
+- **Detect Hint**:
+  ```bash
+  rg -n "<pattern>" <path>
+  ```
+- **Fix**: <How to resolve>
+```
+
+### Step 5: Immediate Branch Sweep
+The agent must immediately execute the new detection hint across the current branch or workspace:
+- Identify any existing candidate violations.
+- Refactor and verify that all instances are cleaned up before creating or pushing a commit.
+
+---
+
+## 3. Pre-PR Gate 8 Integration
+
+Before any Pull Request is marked ready for review, the agent runs **Gate 8 (Learned Checklist Sweep)**:
+- Automatically runs the detection hints for all codified lessons.
+- Ensures zero outstanding violations exist in the PR diff (`git diff origin/main...HEAD`).
+- Confirms that the newly learned rule was followed end-to-end.
+
+---
+
+## 4. Communication Discipline (Zero AI Framework Leakage)
+
+When a lesson is learned and codified:
+- **Internal Action**: Append the rule to the learned checklist and commit locally.
+- **External Communication**: Never tell reviewers *"I added rule C9 per prompt mechanics"*.
+- **Professional Translation**: State: *"Adopted guideline to encapsulate locator in Page Object and verified all callers."*

@@ -1,0 +1,98 @@
+---
+description: Self-improving review checklist that codifies past reviewer feedback into automated detection rules to permanently prevent recurring mistakes.
+globs: "**/*"
+alwaysApply: false
+---
+
+# Review Checklist that Learns — The Continuous Quality Engine
+
+The purpose of this checklist is to review every new pull request the way experienced human engineers and tech leads do. Every item in this checklist originated from real feedback left on past pull requests.
+
+As the team reviews code, whenever a reviewer flags an architectural issue, style violation, or edge case, that comment pattern is codified into this file with an automated detection hint. Once added, the team and AI agents will never repeat that mistake.
+
+---
+
+## The Learning Loop Protocol
+
+When a human review comment is received and addressed:
+1. **Identify the Pattern**: Is this a one-off typo or a recurring architectural/style principle?
+2. **Abstract the Rule**: Generalize the reviewer's concern into a universal guideline.
+3. **Write a Detection Hint**: Craft a `ripgrep` (`rg`), `awk`, or AST detection pattern that can find candidate violations in future PR diffs.
+4. **Append to Checklist**: Add a new item (`C1`, `C2`, etc.) to the appropriate category below.
+5. **Run Pattern Sweep**: Scan existing open branches to clean up identical patterns before reviewers see them.
+
+---
+
+## Active Learned Checklist
+
+### Category A: Test Scope & Boundary Design
+
+#### C1. One Focused Flow per Test (No Long Chains)
+- **Rule**: Do not chain unrelated business journeys into a single monolithic test (e.g., user signup &rarr; admin approval &rarr; billing tier change &rarr; refund &rarr; report export). If an intermediate step fails, subsequent critical checks are skipped.
+- **Reviewer Context**: *"This test is doing too much. If invoice creation fails, we never test the payment validation logic. Split steps 5–8 into a separate test."*
+- **Detect Hint**:
+  ```bash
+  rg -c "test\.step\(" path/to/spec.ts
+  ```
+  *Flag any test containing more than 6 test steps or crossing multiple user roles/personas.*
+- **Fix**: Break into discrete tests. Seed the starting state for subsequent tests via API seeds rather than repeating the full UI journey.
+
+#### C2. Separate Validation/Error Tests from Accuracy/Calculation Tests
+- **Rule**: A single test must not attempt to verify both input validation refusal and successful mathematical accuracy calculations.
+- **Reviewer Context**: *"The overbilling rejection should be in a separate validation test; the current test is verifying financial accuracy."*
+- **Detect Hint**: Scan for tests that contain both failure expectations (`expectError`, `toBeDisabled`) and calculation assertions (`toHaveText('$1,500.00')`).
+- **Fix**: Move negative validation tests into `*.validation.spec.ts` or a distinct `describe('Validations')` block.
+
+#### C3. Every Test Resets Step Numbering to Step 1
+- **Rule**: When a test is split into multiple tests, each new test must restart its step numbering at `Step 1 - <Action>`. Do not start a split test at `Step 7`.
+- **Reviewer Context**: *"Why does this new test start at Step 7? Step numbers should start at 1 in each test."*
+- **Detect Hint**:
+  ```bash
+  rg "test\.step\('(Step [2-9]|Step [0-9]{2})" <spec>
+  ```
+  *Verify that the first `test.step` in every `test()` block begins with `Step 1`.*
+- **Fix**: Renumber steps starting from 1.
+
+---
+
+### Category B: Code Placement & Structural Hygiene
+
+#### C4. Generic Code Belongs in Shared Utilities, Not Feature Folders
+- **Rule**: Helpers that are not strictly domain-specific (e.g., date formatters, email inbox polling, generic retry logic, string sanitizers) must live in shared utility modules or shared packages.
+- **Reviewer Context**: *"Let's not maintain generic email polling code inside the billing feature folder. Move this to the shared utils package so other squads can reuse it."*
+- **Detect Hint**: Inspect `support/utils/` or feature folders for code lacking domain keywords.
+- **Fix**: Move the reusable function to `shared/utils/` and export it cleanly.
+
+#### C5. REST & GraphQL Calls Belong in `support/api/`
+- **Rule**: HTTP calls, payload serialization, and API error handling must be encapsulated in API client modules, never invoked directly within Page Objects or specs.
+- **Reviewer Context**: *"Direct fetch or request calls in the page object pollute the DOM abstraction. Move API calls to support/api/invoices.api.ts."*
+- **Detect Hint**:
+  ```bash
+  rg -n "\b(fetch|request\.(get|post|put|patch|delete))\b" pages/ e2e/
+  ```
+- **Fix**: Create an API method in `support/api/` and import it.
+
+#### C6. Seed Data Factories Belong in `support/seeds/`
+- **Rule**: Boilerplate data assembly for database entities belongs in dedicated seed modules, keeping specs concise and readable.
+- **Reviewer Context**: *"Keep large 50-line JSON payload definitions out of the test file. Use a seed factory."*
+- **Detect Hint**: Search specs for inline JSON objects larger than 15 lines.
+- **Fix**: Extract payload builders to `support/seeds/` with customizable override options.
+
+---
+
+### Category C: Network Efficiency & Environment Portability
+
+#### C7. Authenticate via Storage State / Fixtures, Never UI Login Steps per Test
+- **Rule**: Authenticate user sessions once via setup scripts or storage state fixtures. Never repeat username/password entry through the browser UI in every individual test.
+- **Reviewer Context**: *"Logging in through the UI for all 40 tests adds 2 minutes to the test run. Use a role fixture with saved storage state."*
+- **Detect Hint**: Look for `await page.goto('/login')` or filling login credentials inside `test.beforeEach` or test bodies.
+- **Fix**: Inject pre-authenticated browser contexts via custom fixtures.
+
+#### C8. Zero Hardcoded Environment Literals
+- **Rule**: Never hardcode base URLs, tenant codes, or test accounts as string literals in application or test code.
+- **Reviewer Context**: *"This tenant ID 'acme-corp-123' only exists in dev-sandbox-1. This spec fails when run in staging."*
+- **Detect Hint**:
+  ```bash
+  rg -n "(https?://|tenant_[0-9]+|user@company\.com)" e2e/ pages/ support/
+  ```
+- **Fix**: Read from environment variables or seed dynamic entities.
