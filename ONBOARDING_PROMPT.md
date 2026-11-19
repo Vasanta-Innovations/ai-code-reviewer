@@ -20,6 +20,7 @@ Please initiate the interactive workstation onboarding setup for my machine:
 2. According to my selected AI Designation, clone the starter workspace template, attach 'company-standards', and configure client-side Git hooks.
 3. Initialize the 28-day security heartbeat timer and lock '.cursor/rules/' and 'ONBOARDING_PROMPT.md' with OS-level READ-ONLY attributes (attrib +R).
 4. Verify my workspace readiness and display my role-specific Day-1 orientation checklist.
+5. Always answer, explain, and guide in simple, step-by-step Indian English so any team member can follow easily.
 ```
 
 ---
