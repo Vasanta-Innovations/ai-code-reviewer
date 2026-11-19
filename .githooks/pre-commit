@@ -15,19 +15,18 @@ elif [ -f "scripts/security-heartbeat.sh" ]; then
   fi
 fi
 
-# 2. Guard Read-Only Rules
-if git diff --cached --name-only | grep -E "^\.cursor/rules/"; then
+# 2. Guard Read-Only Rules & Onboarding Prompt
+if git diff --cached --name-only | grep -E "^(\.cursor/rules/|ONBOARDING_PROMPT\.md)"; then
   if [ "$ALLOW_ADMIN_RULE_UPDATE" = "1" ]; then
-    echo "?? [ADMIN OVERRIDE] Rule modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
+    echo "?? [ADMIN OVERRIDE] Rule/Prompt modification permitted via ALLOW_ADMIN_RULE_UPDATE=1."
     exit 0
   fi
   echo ""
   echo "================================================================================"
-  echo " ? [BLOCKED] Rules in '.cursor/rules/' are strictly READ-ONLY!"
+  echo " ? [BLOCKED] Rules in '.cursor/rules/' and 'ONBOARDING_PROMPT.md' are strictly READ-ONLY!"
   echo "================================================================================"
-  echo " Modifying, tampering with, or loosening engineering rules is strictly prohibited."
-  echo " All rules are managed centrally by Tech Leads via 'company-standards'."
-  echo " To contribute a rule update, propose it via an approved company-standards RFC."
+  echo " Modifying, tampering with, or loosening engineering rules or prompts is prohibited."
+  echo " All standards are managed centrally by Tech Leads via 'company-standards'."
   echo "================================================================================"
   echo ""
   exit 1
