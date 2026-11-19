@@ -1,63 +1,87 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# Vasanta Innovations - Workstation Onboarding Automation Engine (POSIX)
+# Vasanta Innovations - Universal AI Workstation Onboarding Engine (POSIX)
 # ==============================================================================
 
 set -e
 
-DESIGNATION="${1:-developer}"
+DESIGNATION="${1:-}"
 TARGET_DIR="${2:-}"
 ORG_NAME="Vasanta-Innovations"
+
+if [ -z "$DESIGNATION" ] || [ "$DESIGNATION" = "--interactive" ] || [ "$DESIGNATION" = "-i" ]; then
+  echo ""
+  echo "================================================================================"
+  echo " 🤖 Select Your AI Designation:"
+  echo "================================================================================"
+  echo "  1) AI Software Engineer (developer-workspace)"
+  echo "  2) AI QA & Test Automation Engineer (qa-automation)"
+  echo "  3) AI Data & Analytics Engineer (data-engineering)"
+  echo "  4) AI DevOps & Platform Engineer (devops-workspace)"
+  echo "  5) AI Product & Project Manager (project-management)"
+  echo "  6) AI UI/UX Designer (design-workspace)"
+  echo "  7) AI Engineering Administrator (admin-workspace)"
+  echo "================================================================================"
+  read -p "Enter designation number (1-7) [Default: 1]: " CHOICE
+  case "$CHOICE" in
+    2) DESIGNATION="qa" ;;
+    3) DESIGNATION="data" ;;
+    4) DESIGNATION="devops" ;;
+    5) DESIGNATION="pm" ;;
+    6) DESIGNATION="design" ;;
+    7) DESIGNATION="admin" ;;
+    *) DESIGNATION="developer" ;;
+  esac
+fi
 
 case "$DESIGNATION" in
   developer)
     REPO_NAME="developer-workspace"
-    ROLE_TITLE="Full-Stack Software Engineer"
-    ROLE_FOCUS="Application features, TypeScript/React/Node, 10 PR Quality Gates, Unit Tests"
+    ROLE_TITLE="AI Software Engineer"
+    ROLE_FOCUS="Full-Stack features, TypeScript/React/Node, 10 PR Quality Gates, Unit Tests"
     ;;
   qa)
     REPO_NAME="qa-automation"
-    ROLE_TITLE="QA & Test Automation Engineer"
-    ROLE_FOCUS="Playwright E2E suites, test fixtures, synthetic testing, defect triage"
+    ROLE_TITLE="AI QA & Test Automation Engineer"
+    ROLE_FOCUS="Playwright E2E suites, synthetic test fixtures, defect triage automation"
     ;;
   data)
     REPO_NAME="data-engineering"
-    ROLE_TITLE="Data & Analytics Engineer"
-    ROLE_FOCUS="BigQuery pipelines, dbt data modeling, SQL transformations, data schemas"
+    ROLE_TITLE="AI Data & Analytics Engineer"
+    ROLE_FOCUS="BigQuery ELT pipelines, dbt data modeling, SQL transformations, data schemas"
     ;;
   devops)
     REPO_NAME="devops-workspace"
-    ROLE_TITLE="DevOps & Platform Engineer"
+    ROLE_TITLE="AI DevOps & Platform Engineer"
     ROLE_FOCUS="CI/CD workflows, 1-click repo provisioner, branch guards, cloud secrets"
     ;;
   pm)
     REPO_NAME="project-management"
-    ROLE_TITLE="Product & Project Manager"
+    ROLE_TITLE="AI Product & Project Manager"
     ROLE_FOCUS="User stories, backlog grooming, PR acceptance criteria, Sprint tracking"
     ;;
   design)
     REPO_NAME="design-workspace"
-    ROLE_TITLE="UI/UX Designer"
-    ROLE_FOCUS="Design system tokens, Figma component specifications, UI review"
+    ROLE_TITLE="AI UI/UX Designer"
+    ROLE_FOCUS="Design system tokens, Figma component specifications, UX accessibility"
     ;;
   admin)
     REPO_NAME="admin-workspace"
-    ROLE_TITLE="IT & Engineering Administrator"
+    ROLE_TITLE="AI Engineering Administrator"
     ROLE_FOCUS="Organization governance, repository templates, secret audit, compliance"
     ;;
   *)
-    echo "Unknown designation: $DESIGNATION. Using 'developer'."
     REPO_NAME="developer-workspace"
-    ROLE_TITLE="Full-Stack Software Engineer"
-    ROLE_FOCUS="Application features, TypeScript/React/Node, 10 PR Quality Gates, Unit Tests"
+    ROLE_TITLE="AI Software Engineer"
+    ROLE_FOCUS="Full-Stack features, TypeScript/React/Node, 10 PR Quality Gates, Unit Tests"
     ;;
 esac
 
 echo ""
 echo "================================================================================"
-echo " 🚀 Vasanta Innovations - 1-Click Workstation Onboarding Engine"
-echo " Role: $ROLE_TITLE"
-echo " Target Repository: $ORG_NAME/$REPO_NAME"
+echo " 🚀 Vasanta Innovations - 1-Click AI Workstation Onboarding Engine"
+echo " Selected AI Designation: $ROLE_TITLE"
+echo " Target Repository:      $ORG_NAME/$REPO_NAME"
 echo "================================================================================"
 echo ""
 

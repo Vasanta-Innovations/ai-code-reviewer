@@ -1,29 +1,37 @@
-# AI Code Reviewer Engine Onboarding Prompt
-**Vasanta Innovations** · AI-First Operating Environment
+# Universal AI Workstation Onboarding Prompt
+**Vasanta Innovations** � AI-First Operating Environment
 
 > [!IMPORTANT]
-> **READ-ONLY DOCUMENT**: This file contains the canonical 1-click onboarding prompt for AI Code Review Engine Contributors. It is protected by Git hooks and operating system read-only attributes.
+> **READ-ONLY DOCUMENT**: This file contains the canonical 1-click interactive onboarding prompt for all team members at Vasanta Innovations. It is protected by Git hooks and operating system read-only attributes.
 
 ---
 
-## 📋 The 1-Click Onboarding Prompt
+## ?? The Single Universal Prompt (All AI Designations)
 
-Copy and paste the exact prompt block below into your AI assistant (Cursor, Antigravity, or terminal agent) to configure your workstation:
+Copy and paste the exact prompt block below into your AI assistant (Cursor, Antigravity, or terminal agent). An interactive selection popup dialog will open, allowing you to choose your **AI Designation** and configure your entire machine automatically:
 
 ```markdown
-You are the Vasanta Innovations Onboarding Agent. I am joining the engineering team contributing to the AI Code Reviewer.
-Please configure my local workstation according to company governance:
+You are the Vasanta Innovations Universal Onboarding Agent.
+Please initiate the interactive workstation onboarding setup for my machine:
 
-1. Target Organization: 'Vasanta-Innovations' | Repository: 'ai-code-reviewer'.
-2. If the repository is not present in my current directory, clone it:
-   git clone https://github.com/Vasanta-Innovations/ai-code-reviewer.git
-   and navigate into 'ai-code-reviewer'.
-3. Initialize and attach the 'company-standards' submodule:
-   git submodule update --init --recursive
-4. Install client-side Git guard hooks (blocking direct pushes to 'main' and preventing rule tampering):
-   powershell -ExecutionPolicy Bypass -File scripts/setup-git-hooks.ps1
-5. Initialize the 28-day security heartbeat inactivity timer:
-   powershell -ExecutionPolicy Bypass -File scripts/security-heartbeat.ps1 -Action touch
-6. Lock '.cursor/rules/' and 'ONBOARDING_PROMPT.md' with OS-level READ-ONLY attributes (attrib +R).
-7. Confirm that the setup is complete and display the AI Code Reviewer Development Guide.
+1. Launch the interactive designation selector popup:
+   powershell -ExecutionPolicy Bypass -File scripts/onboard-workstation.ps1 -Interactive
+   (or 'bash scripts/onboard-workstation.sh --interactive' on macOS/Linux)
+2. According to my selected AI Designation, clone the starter workspace template, attach 'company-standards', and configure client-side Git hooks.
+3. Initialize the 28-day security heartbeat timer and lock '.cursor/rules/' and 'ONBOARDING_PROMPT.md' with OS-level READ-ONLY attributes (attrib +R).
+4. Verify my workspace readiness and display my role-specific Day-1 orientation checklist.
 ```
+
+---
+
+## ?? Supported AI Designations in the Selector:
+
+| # | Standardized AI Designation | Template Workspace | Primary Focus |
+| :-: | :--- | :--- | :--- |
+| **1** | ?? **AI Software Engineer** | `developer-workspace` | Full-Stack features, TypeScript/React/Node, 10 PR Quality Gates |
+| **2** | ?? **AI QA & Test Automation Engineer** | `qa-automation` | Playwright E2E suites, synthetic test fixtures, defect triage |
+| **3** | ?? **AI Data & Analytics Engineer** | `data-engineering` | BigQuery ELT pipelines, dbt data modeling, SQL schemas |
+| **4** | ?? **AI DevOps & Platform Engineer** | `devops-workspace` | CI/CD workflows, 1-click repo provisioner, branch guards |
+| **5** | ?? **AI Product & Project Manager** | `project-management` | User stories, backlog grooming, PR acceptance criteria |
+| **6** | ?? **AI UI/UX Designer** | `design-workspace` | Design system tokens, Figma component specifications |
+| **7** | ?? **AI Engineering Administrator** | `admin-workspace` | Organization governance, repository templates, compliance |
