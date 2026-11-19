@@ -34,7 +34,7 @@ export async function run(): Promise<void> {
         approved: true,
         summary: 'AI Code Review passed: GEMINI_API_KEY secret not yet configured.',
         blockingCount: 0,
-        warningCount: 0,
+        importantCount: 0,
         minorCount: 0,
         totalFindings: 0,
       };
@@ -72,7 +72,7 @@ export async function run(): Promise<void> {
         approved: true,
         summary: `AI Code Review completed with notice: ${err.message}`,
         blockingCount: 0,
-        warningCount: 0,
+        importantCount: 0,
         minorCount: 0,
         totalFindings: 0,
       };
