@@ -1,0 +1,121 @@
+---
+description: Universal Governance, Role Separation, and Automated Continuous Learning Protocol for Vasanta Innovations Workstations
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Ã°Å¸Ââ€ºÃ¯Â¸Â Vasanta Innovations Ã¢â‚¬â€ Master Governance & Continuous Learning Rule (v2.0.0)
+
+## Ã°Å¸â€œÅ’ 1. Purpose & Authority
+This standard defines the mandatory governance, workspace boundaries, and automated continuous learning protocol across all projects. Administrators enforce this rule to prevent recurring mistakes across human employees and AI agents.
+
+---
+
+## Ã°Å¸â€â€™ 2. Workspace Role Separation (AI-Internal vs Employee Visible)
+
+### Ã¢â€ºâ€ 2.1 AI-Internal Restricted Paths (Strictly Hidden & Protected)
+The AI agent must NEVER surface, navigate into, or ask employees to edit these internal harness paths:
+- `D:\projectA\a\scripts` (Workstation bootstrap & onboarding scripts)
+- `D:\projectA\a\vasanta-algo-trader\scripts` (Repository automation scripts)
+- `D:\projectA\a\project-management` (Internal template starter clone)
+- `.security-heartbeat.json` (28-day automated security dormancy tracker)
+- `.githooks/` (Internal pre-push and commit safety hooks)
+- `.cursor/rules/` and `ONBOARDING_PROMPT.md` (Locked by `attrib +R`)
+
+### Ã°Å¸â€™Â¼ 2.2 Employee & Role Visible Workspace
+Employees and AI agents must restrict their daily work to role-specific directories:
+- **Business Analyst (BA / PM):** `docs/01_requirements/` (BRD, SRS), `docs/02_planning/sprints/`, GitHub Project Board.
+- **Developers (Dev 1Ã¢â‚¬â€œ4):** `src/`, `docker-compose.yml`, JPA entities, database migrations, unit tests.
+- **Designers (Des 1Ã¢â‚¬â€œ2):** `sprints/sprint-XX/` (token JSONs), Figma screen briefs, SVG components.
+- **QA Engineers (QA 1Ã¢â‚¬â€œ2):** `tests/`, Playwright & Appium test scripts, Gherkin scenarios.
+
+---
+
+## Ã°Å¸â€ºÂ¡Ã¯Â¸Â 3. Strict Branch & Pull Request Governance (Zero Direct Push to `main`)
+
+### Ã¢â€ºâ€ 3.1 Direct Push Prohibition
+- Pushing directly to `main` is strictly forbidden.
+- Even if emergency environment variables exist (`ALLOW_EMERGENCY_MAIN_PUSH=1`), they are only for initial repository bootstrap.
+- GitHub Actions CI workflow `guard-main.yml` automatically fails any direct push to `main` with a **Direct Push Violation**.
+
+### Ã¢Å“â€¦ 3.2 The Mandatory 4-Step Branch & PR Law
+Every documentation, code, or asset change must follow this cycle:
+1. **Create Feature Branch:** `git checkout -b <type>/<descriptive-slug>` (e.g., `docs/srs-diagrams`, `feat/auth-service`).
+2. **Commit on Branch:** Commit changes on the feature branch only.
+3. **Push Feature Branch:** `git push -u origin <branch-name>`.
+4. **Create PR & Merge:** Open PR via `gh pr create`. Verify automated AI Quality Gate passes green before merging via `gh pr merge --merge --delete-branch`.
+
+---
+
+## Ã°Å¸â€œÂ 4. Sprint Structure Architecture (Folder-per-Sprint Standard)
+
+- In projects spanning 24 to 30 weeks (over 200 user stories), flat file dumps in `docs/02_planning/user-stories/` cause unacceptable clutter.
+- **Mandatory Standard:**
+  ```text
+  docs/02_planning/sprints/
+  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ README.md                      # Master directory of all 30 sprints
+  Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ sprint-01/
+  Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ README.md                  # Sprint overview, goals, team matrix & DoD
+  Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ kickoff-handover-guide.md  # 5-day team execution guide
+  Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ US-0101 to US-0108.md      # Standalone user story tickets
+  Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ sprint-02/
+      Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ README.md
+      Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ US-0201 to US-0208.md
+  ```
+
+---
+
+## Ã°Å¸â€œÂ 5. Agile Discovery Sequencing Law (Architecture Before Planning)
+
+- **Rule:** System Architecture Diagrams (Flowcharts, Ingestion Sequences, and Dual-Mode State Machines) must be completed in [SRS.md](file:///D:/projectA/a/vasanta-algo-trader/docs/01_requirements/SRS.md) **before** sprint planning and kickoff.
+- **Reason:** Definition of Ready (DoR) cannot be met if developers and designers lack a unified system blueprint.
+
+---
+
+## Ã°Å¸Â¤â€“ 6. Automated Pre-Push Continuous Learning Protocol (Role & Chat Memory)
+
+### Ã°Å¸Å½Â¯ 6.1 Objective
+Capture every friction point, failed prompt, AI mistake, and winning correction during conversation sessions, so administrators can continuously improve company system prompts and rules.
+
+### Ã¢Å¡â„¢Ã¯Â¸Â 6.2 The Extraction Trigger (At Git Push / Pre-Push Time)
+Whenever any employee (or AI agent on behalf of an employee) prepares to push changes or open a Pull Request:
+1. **Analyze Chat History:** The AI agent must scan the active conversation history.
+2. **Identify Friction Points:**
+   - Did the user issue multiple prompts because the AI gave incorrect output?
+   - Did the AI make a git violation (e.g., direct push)?
+   - Did the user have to clarify requirements or format multiple times?
+3. **Capture the Winning Prompt:** What exact prompt or instruction finally yielded the perfect solution?
+4. **Generate MDC Learning File:** Automatically write a structured `.mdc` file into `learnings/users/<username>-<designation>/`.
+
+### Ã°Å¸â€œâ€¹ 6.3 Learning File Metadata Schema
+Every learning file must follow this frontmatter and structure:
+
+```markdown
+---
+author: "<User Full Name / Git Username>"
+designation: "<Role e.g., BA / Backend Lead / UI Designer / QA Lead>"
+timestamp: "<ISO 8601 Timestamp>"
+project: "<Project Name>"
+topic: "<Topic / Feature / Issue>"
+tags: ["learning", "<role>", "<category>"]
+---
+
+# Ã°Å¸Â§Â  Session Learning & Prompt Evolution
+
+## 1. Context & Task Overview
+[Summary of what the employee was trying to achieve]
+
+## 2. Friction Points & AI Mistakes
+- **Mistake/Issue Encountered**: [What went wrong or failed initially]
+- **Early Failed Prompts**:
+  > "[Quote initial prompt that produced wrong output]"
+- **Why It Failed**: [Lack of context, wrong tool call, violated rule]
+
+## 3. Iteration & Winning Prompt
+- **User Corrections**: [How the user guided the AI to the right path]
+- **Winning Prompt**:
+  > "[The exact prompt that produced the final perfect output]"
+
+## 4. Golden Rule for Administrator (Actionable Update)
+- [Explicit instruction on what rule the administrator must add or update in the global system rules]
+```
